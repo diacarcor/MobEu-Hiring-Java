@@ -2,8 +2,12 @@ package com.mobiquityinc.parser;
 
 import com.mobiquityinc.exception.APIException;
 import com.mobiquityinc.model.InputRecord;
+import com.mobiquityinc.model.Thing;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Class responsible for parse the contents of the input file.
@@ -15,7 +19,11 @@ public class InputRecordParser {
 
   private static final String INPUT_RECORD_REGEXP =
       "^\\d+\\s*:\\s*\\(\\d+,\\d*\\.*\\d*,.\\d*\\.*\\d*\\).*$";
-  private static final String THING_REGEXP = "\\(\\d+,\\d*\\.*\\d*,.\\d*\\.*\\d*\\s*\\)";
+
+  // regexp for thing format with named groups: index, weight, currency and cost
+  // This regexp matches a string like e.g. "(6,76.25,€75)"
+  private static final String THING_REGEXP =
+      "\\((?<index>\\d+),(?<weight>\\d*\\.*\\d*),(?<currency>.)(?<cost>\\d*\\.*\\d*)\\)";
 
   /**
    * Parse a file from a {@link List} of {@link String} representing the file.
@@ -24,6 +32,27 @@ public class InputRecordParser {
    * @return parsed file as a {@link List} of {@link InputRecord}
    */
   public static List<InputRecord> parseFile(List<String> file) throws APIException {
-    return new ArrayList<>();
+    List<InputRecord> inputRecordList = new ArrayList<>();
+
+    file.forEach(
+        (record) -> {
+          String[] recordArray = record.split(":");
+          InputRecord inputRecord = new InputRecord();
+          inputRecord.setWeight(Float.parseFloat(recordArray[0]));
+          List<Thing> thingList = new ArrayList<>();
+          Pattern pattern = Pattern.compile(THING_REGEXP);
+          Matcher matcher = pattern.matcher(recordArray[1]);
+          while (matcher.find()) {
+            Thing thing = new Thing();
+            thing.setIndex(Integer.parseInt(matcher.group("index")));
+            thing.setWeight(Double.parseDouble(matcher.group("weight")));
+            thing.setCurrency(matcher.group("currency"));
+            thing.setCost(new BigDecimal(matcher.group("cost")));
+            thingList.add(thing);
+          }
+          inputRecord.setThingsList(thingList);
+          inputRecordList.add(inputRecord);
+        });
+    return inputRecordList;
   }
 }

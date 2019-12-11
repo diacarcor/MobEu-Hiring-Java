@@ -12,6 +12,7 @@ import lombok.Data;
 @Data
 public class Thing {
   int index;
-  float weight;
+  double weight;
+  String currency;
   BigDecimal cost;
 }

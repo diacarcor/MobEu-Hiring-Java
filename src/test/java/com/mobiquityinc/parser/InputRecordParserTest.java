@@ -32,9 +32,11 @@ public class InputRecordParserTest {
     assertEquals(inputRecordList.get(0).getThingsList().size(), 9);
     assertEquals(inputRecordList.get(0).getThingsList().get(0).getIndex(), 1);
     assertEquals(inputRecordList.get(0).getThingsList().get(0).getWeight(), 85.31);
+    assertEquals(inputRecordList.get(0).getThingsList().get(0).getCurrency(), "€");
     assertEquals(inputRecordList.get(0).getThingsList().get(0).getCost(), new BigDecimal(29));
     assertEquals(inputRecordList.get(0).getThingsList().get(8).getIndex(), 9);
     assertEquals(inputRecordList.get(0).getThingsList().get(8).getWeight(), 89.95);
+    assertEquals(inputRecordList.get(0).getThingsList().get(8).getCurrency(), "€");
     assertEquals(inputRecordList.get(0).getThingsList().get(8).getCost(), new BigDecimal(78));
   }
 }
