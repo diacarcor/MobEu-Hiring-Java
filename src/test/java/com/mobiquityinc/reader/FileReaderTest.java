@@ -1,6 +1,7 @@
 package com.mobiquityinc.reader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.mobiquityinc.exception.APIException;
@@ -22,12 +23,28 @@ public class FileReaderTest {
    * matches the amount of lines of the file (4) and also check file contents
    */
   @Test
-  public void readFile() throws APIException {
+  public void readFileCorrectly() throws APIException {
     Path resourceDirectory = Paths.get("src", "test", "resources", "testFile.txt");
     String absolutePath = resourceDirectory.toFile().getAbsolutePath();
     List<String> linesList = FileReader.readFile(absolutePath);
     assertEquals(linesList.size(), 4);
     assertTrue(linesList.get(0).startsWith("81"));
     assertTrue(linesList.get(3).endsWith("€64)"));
+  }
+
+  /** Test wrote to check IF APIException is thrown when the file is no found */
+  @Test
+  public void readFile_NotFound() {
+    Path resourceDirectory = Paths.get("src", "test", "resources", "testFileNotFound.txt");
+    String absolutePath = resourceDirectory.toFile().getAbsolutePath();
+    assertThrows(APIException.class, () -> FileReader.readFile(absolutePath));
+  }
+
+  /** Test wrote to check IF APIException is thrown when the file is not UTF-8 encoded */
+  @Test
+  public void readFile_Ansi() {
+    Path resourceDirectory = Paths.get("src", "test", "resources", "testFileANSI.txt");
+    String absolutePath = resourceDirectory.toFile().getAbsolutePath();
+    assertThrows(APIException.class, () -> FileReader.readFile(absolutePath));
   }
 }
