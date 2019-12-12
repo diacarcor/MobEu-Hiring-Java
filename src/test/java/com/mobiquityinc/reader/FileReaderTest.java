@@ -27,7 +27,7 @@ public class FileReaderTest {
     Path resourceDirectory = Paths.get("src", "test", "resources", "testFile.txt");
     String absolutePath = resourceDirectory.toFile().getAbsolutePath();
     List<String> linesList = FileReader.readFile(absolutePath);
-    assertEquals(linesList.size(), 4);
+    assertEquals(4, linesList.size());
     assertTrue(linesList.get(0).startsWith("81"));
     assertTrue(linesList.get(3).endsWith("€64)"));
   }

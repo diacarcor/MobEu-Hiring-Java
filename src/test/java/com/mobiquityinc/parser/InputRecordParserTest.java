@@ -28,17 +28,17 @@ public class InputRecordParserTest {
     linesList.add(
         "75 : (1,85.31,€29) (2,14.55,€74) (3,3.98,€16) (4,26.24,€55) (5,63.69,€52) (6,76.25,€75) (7,60.02,€74) (8,93.18,€35) (9,89.95,€78)");
     List<InputRecord> inputRecordList = InputRecordParser.parseFile(linesList);
-    assertEquals(inputRecordList.size(), 1);
-    assertEquals(inputRecordList.get(0).getWeight(), 75);
-    assertEquals(inputRecordList.get(0).getThingsList().size(), 9);
-    assertEquals(inputRecordList.get(0).getThingsList().get(0).getIndex(), 1);
-    assertEquals(inputRecordList.get(0).getThingsList().get(0).getWeight(), 85.31);
-    assertEquals(inputRecordList.get(0).getThingsList().get(0).getCurrency(), "€");
-    assertEquals(inputRecordList.get(0).getThingsList().get(0).getCost(), new BigDecimal(29));
-    assertEquals(inputRecordList.get(0).getThingsList().get(8).getIndex(), 9);
-    assertEquals(inputRecordList.get(0).getThingsList().get(8).getWeight(), 89.95);
-    assertEquals(inputRecordList.get(0).getThingsList().get(8).getCurrency(), "€");
-    assertEquals(inputRecordList.get(0).getThingsList().get(8).getCost(), new BigDecimal(78));
+    assertEquals(1, inputRecordList.size());
+    assertEquals(75, inputRecordList.get(0).getWeight());
+    assertEquals(9, inputRecordList.get(0).getThingsList().size());
+    assertEquals(1, inputRecordList.get(0).getThingsList().get(0).getIndex());
+    assertEquals(85.31, inputRecordList.get(0).getThingsList().get(0).getWeight());
+    assertEquals("€", inputRecordList.get(0).getThingsList().get(0).getCurrency());
+    assertEquals(new BigDecimal(29), inputRecordList.get(0).getThingsList().get(0).getCost());
+    assertEquals(9, inputRecordList.get(0).getThingsList().get(8).getIndex());
+    assertEquals(89.95, inputRecordList.get(0).getThingsList().get(8).getWeight());
+    assertEquals("€", inputRecordList.get(0).getThingsList().get(8).getCurrency());
+    assertEquals(new BigDecimal(78), inputRecordList.get(0).getThingsList().get(8).getCost());
   }
 
   /** Checks if an incorrect formatted input test throws an APIException. */
@@ -51,7 +51,7 @@ public class InputRecordParserTest {
     assertThrows(APIException.class, () -> InputRecordParser.parseFile(linesList));
   }
 
-  /** Checks if a line surpassies a 100 weight throws an APIException. */
+  /** Checks if a line surpassing 100 weight throws an APIException. */
   @Test
   public void parseFile_packageMaxWeightSurpassed() {
     List<String> linesList = new ArrayList<>();
@@ -61,7 +61,7 @@ public class InputRecordParserTest {
     assertThrows(APIException.class, () -> InputRecordParser.parseFile(linesList));
   }
 
-  /** Checks if a line surpassing a 15 items throws an APIException. */
+  /** Checks if a line surpassing 15 items throws an APIException. */
   @Test
   public void parseFile_lineMaxItemsSurpassed() {
     List<String> linesList = new ArrayList<>();

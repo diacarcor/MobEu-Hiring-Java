@@ -49,6 +49,10 @@ public class InputRecordParser {
           inputRecord.setWeight(packageWeight);
           List<Thing> thingList = new ArrayList<>();
           Pattern pattern = Pattern.compile(THING_REGEXP);
+          // Items per line validation
+          if (pattern.matcher(recordArray[1]).results().count() > 15) {
+            throw new APIException("Items per lines should be less or equal than 15");
+          }
           Matcher matcher = pattern.matcher(recordArray[1]);
           while (matcher.find()) {
             Thing thing = new Thing();
