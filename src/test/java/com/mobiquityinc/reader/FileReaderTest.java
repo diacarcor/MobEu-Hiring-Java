@@ -42,7 +42,7 @@ public class FileReaderTest {
 
   /** Test wrote to check IF APIException is thrown when the file is not UTF-8 encoded */
   @Test
-  public void readFile_Ansi() {
+  public void readFile_isValidUTF8File() {
     Path resourceDirectory = Paths.get("src", "test", "resources", "testFileANSI.txt");
     String absolutePath = resourceDirectory.toFile().getAbsolutePath();
     assertThrows(APIException.class, () -> FileReader.readFile(absolutePath));

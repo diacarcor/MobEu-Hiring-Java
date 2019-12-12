@@ -2,6 +2,8 @@ package com.mobiquityinc.reader;
 
 import com.mobiquityinc.exception.APIException;
 import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -27,9 +29,11 @@ public class FileReader {
    * @return file contents as a {@link List} of {@link String}
    */
   public static List<String> readFile(String path) throws APIException {
-    try (Stream<String> stream = Files.lines(Paths.get(path))) {
-      LOG.log(Level.INFO, "File read correctly");
+    try (Stream<String> stream = Files.lines(Paths.get(path), StandardCharsets.UTF_8)) {
       return stream.collect(Collectors.toList());
+    } catch (UncheckedIOException ioe) {
+      LOG.log(Level.SEVERE, ioe.getMessage());
+      throw new APIException(ioe.getCause().getMessage());
     } catch (IOException ioe) {
       LOG.log(Level.SEVERE, ioe.getMessage());
       throw new APIException(ioe.getMessage());
