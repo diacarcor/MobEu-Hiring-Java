@@ -1,6 +1,7 @@
 package com.mobiquityinc.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.mobiquityinc.exception.APIException;
 import com.mobiquityinc.model.InputRecord;
@@ -18,11 +19,11 @@ import org.junit.jupiter.api.Test;
 public class InputRecordParserTest {
 
   /**
-   * Test wrote to check if a test input is able to be parsed as a {@link List} of {@link
-   * InputRecord} and assert that the record contents are ok.
+   * Checks if a test input is able to be parsed as a {@link List} of {@link InputRecord} and assert
+   * that the record contents are ok.
    */
   @Test
-  public void parseFile() throws APIException {
+  public void parseFile_correctly() throws APIException {
     List<String> linesList = new ArrayList<>();
     linesList.add(
         "75 : (1,85.31,€29) (2,14.55,€74) (3,3.98,€16) (4,26.24,€55) (5,63.69,€52) (6,76.25,€75) (7,60.02,€74) (8,93.18,€35) (9,89.95,€78)");
@@ -38,5 +39,14 @@ public class InputRecordParserTest {
     assertEquals(inputRecordList.get(0).getThingsList().get(8).getWeight(), 89.95);
     assertEquals(inputRecordList.get(0).getThingsList().get(8).getCurrency(), "€");
     assertEquals(inputRecordList.get(0).getThingsList().get(8).getCost(), new BigDecimal(78));
+  }
+
+  /** Checks if a incorrect formatted test input throws an APIException. */
+  @Test
+  public void parseFile_incorrectFormat() {
+    List<String> linesList = new ArrayList<>();
+    linesList.add(
+        "df (1,85.31,€29) (2,14.55,€74) (3,3.98,€16) (4,26.24,€55) (5,63.69,€52) (6,76.25,€75) (7,60.02,€74) (8,93.18,€35) (9,89.95,€78)");
+    assertThrows(APIException.class, () -> InputRecordParser.parseFile(linesList));
   }
 }

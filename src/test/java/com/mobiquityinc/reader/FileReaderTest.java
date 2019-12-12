@@ -23,7 +23,7 @@ public class FileReaderTest {
    * matches the amount of lines of the file (4) and also check file contents
    */
   @Test
-  public void readFileCorrectly() throws APIException {
+  public void readFile_correctly() throws APIException {
     Path resourceDirectory = Paths.get("src", "test", "resources", "testFile.txt");
     String absolutePath = resourceDirectory.toFile().getAbsolutePath();
     List<String> linesList = FileReader.readFile(absolutePath);
@@ -34,7 +34,7 @@ public class FileReaderTest {
 
   /** Test wrote to check IF APIException is thrown when the file is no found */
   @Test
-  public void readFile_NotFound() {
+  public void readFile_notFound() {
     Path resourceDirectory = Paths.get("src", "test", "resources", "testFileNotFound.txt");
     String absolutePath = resourceDirectory.toFile().getAbsolutePath();
     assertThrows(APIException.class, () -> FileReader.readFile(absolutePath));
@@ -42,7 +42,7 @@ public class FileReaderTest {
 
   /** Test wrote to check IF APIException is thrown when the file is not UTF-8 encoded */
   @Test
-  public void readFile_isValidUTF8File() {
+  public void readFile_isNotValidUTF8File() {
     Path resourceDirectory = Paths.get("src", "test", "resources", "testFileANSI.txt");
     String absolutePath = resourceDirectory.toFile().getAbsolutePath();
     assertThrows(APIException.class, () -> FileReader.readFile(absolutePath));
