@@ -17,6 +17,8 @@ import java.util.regex.Pattern;
  */
 public class InputRecordParser {
 
+  // regexp to validate line format
+  // This regexp matches a string like e.g. "75 : (1,85.31,€29) (2,14.55,€74)"
   private static final String INPUT_RECORD_REGEXP =
       "^\\d+\\s*:\\s*\\(\\d+,\\d*\\.*\\d*,.\\d*\\.*\\d*\\).*$";
 
@@ -36,6 +38,7 @@ public class InputRecordParser {
 
     file.forEach(
         (record) -> {
+          validateLineFormat(record);
           String[] recordArray = record.split(":");
           InputRecord inputRecord = new InputRecord();
           inputRecord.setWeight(Float.parseFloat(recordArray[0]));
@@ -54,5 +57,18 @@ public class InputRecordParser {
           inputRecordList.add(inputRecord);
         });
     return inputRecordList;
+  }
+
+  /**
+   * Validates if a {@link String} line has a valid format. If not an APIException is thrown.
+   *
+   * @param line {@link String} representing the lie.
+   */
+  private static void validateLineFormat(String line) throws APIException {
+    Pattern pattern = Pattern.compile(INPUT_RECORD_REGEXP);
+    Matcher matcher = pattern.matcher(line);
+    if (!matcher.find()) {
+      throw new APIException("Line format incorrect");
+    }
   }
 }

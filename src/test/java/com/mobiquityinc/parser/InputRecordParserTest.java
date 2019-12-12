@@ -46,7 +46,8 @@ public class InputRecordParserTest {
   public void parseFile_incorrectFormat() {
     List<String> linesList = new ArrayList<>();
     linesList.add(
-        "df (1,85.31,€29) (2,14.55,€74) (3,3.98,€16) (4,26.24,€55) (5,63.69,€52) (6,76.25,€75) (7,60.02,€74) (8,93.18,€35) (9,89.95,€78)");
+        "75 : (1,85.31,€29) (2,14.55,€74) (3,3.98,€16) (4,26.24,€55) (5,63.69,€52) (6,76.25,€75) (7,60.02,€74) (8,93.18,€35) (9,89.95,€78)");
+    linesList.add("35 : (190.72,€13) (2,33.80,€40) (3,43.15,€10) (4,37.97,€16)");
     assertThrows(APIException.class, () -> InputRecordParser.parseFile(linesList));
   }
 }
