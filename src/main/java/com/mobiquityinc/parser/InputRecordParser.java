@@ -41,7 +41,12 @@ public class InputRecordParser {
           validateLineFormat(record);
           String[] recordArray = record.split(":");
           InputRecord inputRecord = new InputRecord();
-          inputRecord.setWeight(Float.parseFloat(recordArray[0]));
+          float packageWeight = Float.parseFloat(recordArray[0]);
+          // Package weight validation
+          if (packageWeight > 100) {
+            throw new APIException("Package weight should be less or equal than 100");
+          }
+          inputRecord.setWeight(packageWeight);
           List<Thing> thingList = new ArrayList<>();
           Pattern pattern = Pattern.compile(THING_REGEXP);
           Matcher matcher = pattern.matcher(recordArray[1]);
