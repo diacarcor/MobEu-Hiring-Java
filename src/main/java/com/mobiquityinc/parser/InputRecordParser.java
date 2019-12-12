@@ -57,7 +57,12 @@ public class InputRecordParser {
           while (matcher.find()) {
             Thing thing = new Thing();
             thing.setIndex(Integer.parseInt(matcher.group("index")));
-            thing.setWeight(Double.parseDouble(matcher.group("weight")));
+            double thingWeight = Double.parseDouble(matcher.group("weight"));
+            // Thing max weight validation
+            if (thingWeight > 100) {
+              throw new APIException("Thing weight should be less or equal than 100");
+            }
+            thing.setWeight(thingWeight);
             thing.setCurrency(matcher.group("currency"));
             thing.setCost(new BigDecimal(matcher.group("cost")));
             thingList.add(thing);
