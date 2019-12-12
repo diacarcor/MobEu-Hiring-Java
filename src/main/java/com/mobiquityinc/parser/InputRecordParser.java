@@ -64,7 +64,12 @@ public class InputRecordParser {
             }
             thing.setWeight(thingWeight);
             thing.setCurrency(matcher.group("currency"));
-            thing.setCost(new BigDecimal(matcher.group("cost")));
+            BigDecimal thingCost = new BigDecimal(matcher.group("cost"));
+            // Thing max weight validation
+            if (thingCost.compareTo(new BigDecimal(100)) > 0) {
+              throw new APIException("Thing cost should be less or equal than 100");
+            }
+            thing.setCost(thingCost);
             thingList.add(thing);
           }
           inputRecord.setThingsList(thingList);
