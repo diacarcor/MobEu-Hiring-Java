@@ -1,6 +1,7 @@
 package com.mobiquityinc.packer;
 
-import com.mobiquityinc.exception.APIException;
+import com.mobiquityinc.parser.InputRecordParser;
+import com.mobiquityinc.reader.FileReader;
 
 /**
  * Packer class, Entry point of the library.
@@ -11,7 +12,6 @@ import com.mobiquityinc.exception.APIException;
 public class Packer {
 
   private Packer() {
-
   }
 
   /**
@@ -22,7 +22,7 @@ public class Packer {
    * @param filePath the file path.
    * @return list of things to but put in the packages as a {@link String}
    */
-  public static String pack(String filePath) throws APIException {
-    return null;
+  public static String pack(String filePath) {
+    return Solver.findSolution(InputRecordParser.parseFile(FileReader.readFile(filePath)));
   }
 }

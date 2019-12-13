@@ -18,12 +18,13 @@ import org.junit.jupiter.api.Test;
  */
 class SolverTest {
 
-  private static List<InputRecord> records;
+  private static List<InputRecord> recordWithValidSolution;
+  private static List<InputRecord> recordWithoutValidSolution;
 
   /** Setup test data. */
   @BeforeAll
   static void setup() {
-    records = new ArrayList<>();
+    recordWithValidSolution = new ArrayList<>();
     InputRecord record = new InputRecord();
     List<Thing> things = new ArrayList<>();
     Thing thing1 = new Thing(1, 85.31, "€", new BigDecimal(29));
@@ -46,12 +47,30 @@ class SolverTest {
     things.add(thing9);
     record.setWeight(75);
     record.setThingsList(things);
-    records.add(record);
+    recordWithValidSolution.add(record);
+
+    recordWithoutValidSolution = new ArrayList<>();
+    InputRecord recordNs = new InputRecord();
+    List<Thing> thingsNs = new ArrayList<>();
+    Thing thingNs = new Thing(1, 15.3, "€", new BigDecimal(34));
+    thingsNs.add(thingNs);
+    recordNs.setWeight(8);
+    recordNs.setThingsList(thingsNs);
+    recordWithoutValidSolution.add(recordNs);
   }
 
   /** Checks if a solution for a given {@link List} of {@link InputRecord} is correct */
   @Test
   void findSolution_correctly() {
-    assertEquals("2,7", Solver.findSolution(records));
+    assertEquals("2,7", Solver.findSolution(recordWithValidSolution));
+  }
+
+  /**
+   * Checks if a solution for a given {@link List} of {@link InputRecord} without solution returns
+   * "-" character
+   */
+  @Test
+  void findSolution_withoutValidSolution() {
+    assertEquals("-", Solver.findSolution(recordWithoutValidSolution));
   }
 }
