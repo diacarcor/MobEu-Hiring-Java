@@ -11,7 +11,7 @@ import lombok.Data;
  */
 @Data
 public class InputRecord {
-  float weight;
+  double weight;
   List<Thing> thingsList;
   List<Integer> indexesSelected;
 }

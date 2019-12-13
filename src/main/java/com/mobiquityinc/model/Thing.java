@@ -1,7 +1,9 @@
 package com.mobiquityinc.model;
 
 import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Class representing a thing.
@@ -10,6 +12,8 @@ import lombok.Data;
  * @since 2019-12-10
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Thing {
   int index;
   double weight;

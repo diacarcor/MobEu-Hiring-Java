@@ -17,6 +17,9 @@ import java.util.regex.Pattern;
  */
 public class InputRecordParser {
 
+  private InputRecordParser() {
+  }
+
   // regexp to validate line format
   // This regexp matches a string like e.g. "75 : (1,85.31,€29) (2,14.55,€74)"
   private static final String INPUT_RECORD_REGEXP =
@@ -33,11 +36,11 @@ public class InputRecordParser {
    * @param file {@link List} of {@link String} representing the file.
    * @return parsed file as a {@link List} of {@link InputRecord}
    */
-  public static List<InputRecord> parseFile(List<String> file) throws APIException {
+  public static List<InputRecord> parseFile(List<String> file) {
     List<InputRecord> inputRecordList = new ArrayList<>();
 
     file.forEach(
-        (record) -> {
+        record -> {
           validateLineFormat(record);
           String[] recordArray = record.split(":");
           InputRecord inputRecord = new InputRecord();
@@ -83,7 +86,7 @@ public class InputRecordParser {
    *
    * @param line {@link String} representing the lie.
    */
-  private static void validateLineFormat(String line) throws APIException {
+  private static void validateLineFormat(String line) {
     Pattern pattern = Pattern.compile(INPUT_RECORD_REGEXP);
     Matcher matcher = pattern.matcher(line);
     if (!matcher.find()) {

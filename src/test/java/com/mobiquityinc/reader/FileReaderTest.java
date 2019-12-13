@@ -16,14 +16,14 @@ import org.junit.jupiter.api.Test;
  * @author Diego Fernando Junco
  * @since 2019-12-10
  */
-public class FileReaderTest {
+class FileReaderTest {
 
   /**
    * Test wrote to check if the test file was read as a List of String and assert that the list size
    * matches the amount of lines of the file (4) and also check file contents
    */
   @Test
-  public void readFile_correctly() throws APIException {
+  void readFile_correctly() {
     Path resourceDirectory = Paths.get("src", "test", "resources", "testFile.txt");
     String absolutePath = resourceDirectory.toFile().getAbsolutePath();
     List<String> linesList = FileReader.readFile(absolutePath);
@@ -34,7 +34,7 @@ public class FileReaderTest {
 
   /** Test wrote to check IF APIException is thrown when the file is no found */
   @Test
-  public void readFile_notFound() {
+  void readFile_notFound() {
     Path resourceDirectory = Paths.get("src", "test", "resources", "testFileNotFound.txt");
     String absolutePath = resourceDirectory.toFile().getAbsolutePath();
     assertThrows(APIException.class, () -> FileReader.readFile(absolutePath));
@@ -42,7 +42,7 @@ public class FileReaderTest {
 
   /** Test wrote to check IF APIException is thrown when the file is not UTF-8 encoded */
   @Test
-  public void readFile_isNotValidUTF8File() {
+  void readFile_isNotValidUTF8File() {
     Path resourceDirectory = Paths.get("src", "test", "resources", "testFileANSI.txt");
     String absolutePath = resourceDirectory.toFile().getAbsolutePath();
     assertThrows(APIException.class, () -> FileReader.readFile(absolutePath));

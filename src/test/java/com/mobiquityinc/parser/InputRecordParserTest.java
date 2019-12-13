@@ -16,14 +16,14 @@ import org.junit.jupiter.api.Test;
  * @author Diego Fernando Junco
  * @since 2019-12-10
  */
-public class InputRecordParserTest {
+class InputRecordParserTest {
 
   /**
    * Checks if a test input is able to be parsed as a {@link List} of {@link InputRecord} and assert
    * that the record contents are ok.
    */
   @Test
-  public void parseFile_correctly() throws APIException {
+  void parseFile_correctly() {
     List<String> linesList = new ArrayList<>();
     linesList.add(
         "75 : (1,85.31,€29) (2,14.55,€74) (3,3.98,€16) (4,26.24,€55) (5,63.69,€52) (6,76.25,€75) (7,60.02,€74) (8,93.18,€35) (9,89.95,€78)");
@@ -43,7 +43,7 @@ public class InputRecordParserTest {
 
   /** Checks if an incorrect formatted input test throws an APIException. */
   @Test
-  public void parseFile_incorrectFormat() {
+  void parseFile_incorrectFormat() {
     List<String> linesList = new ArrayList<>();
     linesList.add(
         "75 : (1,85.31,€29) (2,14.55,€74) (3,3.98,€16) (4,26.24,€55) (5,63.69,€52) (6,76.25,€75) (7,60.02,€74) (8,93.18,€35) (9,89.95,€78)");
@@ -53,7 +53,7 @@ public class InputRecordParserTest {
 
   /** Checks if a line surpassing 100 weight throws an APIException. */
   @Test
-  public void parseFile_packageMaxWeightSurpassed() {
+  void parseFile_packageMaxWeightSurpassed() {
     List<String> linesList = new ArrayList<>();
     linesList.add(
         "75 : (1,85.31,€29) (2,14.55,€74) (3,3.98,€16) (4,26.24,€55) (5,63.69,€52) (6,76.25,€75) (7,60.02,€74) (8,93.18,€35) (9,89.95,€78)");
@@ -63,7 +63,7 @@ public class InputRecordParserTest {
 
   /** Checks if a line surpassing 15 items throws an APIException. */
   @Test
-  public void parseFile_lineMaxItemsSurpassed() {
+  void parseFile_lineMaxItemsSurpassed() {
     List<String> linesList = new ArrayList<>();
     linesList.add(
         "75 : (1,85.31,€29) (2,14.55,€74) (3,3.98,€16) (4,26.24,€55) (5,63.69,€52) (6,76.25,€75) (7,60.02,€74) (8,93.18,€35) (9,89.95,€78)");
@@ -74,7 +74,7 @@ public class InputRecordParserTest {
 
   /** Checks if an item surpassing 100 weight throws an APIException. */
   @Test
-  public void parseFile_itemMaxWeightSurpassed() {
+  void parseFile_itemMaxWeightSurpassed() {
     List<String> linesList = new ArrayList<>();
     linesList.add(
         "75 : (1,85.31,€29) (2,14.55,€74) (3,3.98,€16) (4,26.24,€55) (5,63.69,€52) (6,76.25,€75) (7,60.02,€74) (8,93.18,€35) (9,89.95,€78)");
@@ -85,7 +85,7 @@ public class InputRecordParserTest {
 
   /** Checks if an item surpassing 100 cost throws an APIException. */
   @Test
-  public void parseFile_itemMaxCostSurpassed() {
+  void parseFile_itemMaxCostSurpassed() {
     List<String> linesList = new ArrayList<>();
     linesList.add(
         "75 : (1,85.31,€29) (2,14.55,€74) (3,3.98,€16) (4,26.24,€55) (5,63.69,€52) (6,76.25,€75) (7,60.02,€74) (8,93.18,€35) (9,89.95,€78)");
