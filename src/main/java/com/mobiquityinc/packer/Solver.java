@@ -104,6 +104,9 @@ class Solver {
         w = w - wt[i - 1];
       }
     }
+    if (resultsList.size() == 0) {
+      return "-";
+    }
     Collections.sort(resultsList);
     return resultsList.stream().map(String::valueOf).collect(Collectors.joining(","));
   }
