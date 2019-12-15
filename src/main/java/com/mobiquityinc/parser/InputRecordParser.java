@@ -68,7 +68,7 @@ public class InputRecordParser {
             thing.setWeight(thingWeight);
             thing.setCurrency(matcher.group("currency"));
             BigDecimal thingCost = new BigDecimal(matcher.group("cost"));
-            // Thing max weight validation
+            // Thing max cost validation
             if (thingCost.compareTo(new BigDecimal(100)) > 0) {
               throw new APIException("Thing cost should be less or equal than 100");
             }
