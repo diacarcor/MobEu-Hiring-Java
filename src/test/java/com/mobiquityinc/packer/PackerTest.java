@@ -26,6 +26,6 @@ class PackerTest {
   /** Checks if a solution for a given file path is correct */
   @Test
   void pack_correctly() {
-    assertEquals("4\\n-\\n2,7\\n8,9", Packer.pack(absolutePath));
+    assertEquals("4"+System.lineSeparator()+"-"+System.lineSeparator()+"2,7"+System.lineSeparator()+"8,9", Packer.pack(absolutePath));
   }
 }
