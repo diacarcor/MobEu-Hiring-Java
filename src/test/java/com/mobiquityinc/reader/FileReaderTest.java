@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.mobiquityinc.exception.APIException;
+import com.mobiquityinc.exception.ApiException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -37,7 +37,7 @@ class FileReaderTest {
   void readFile_notFound() {
     Path resourceDirectory = Paths.get("src", "test", "resources", "testFileNotFound.txt");
     String absolutePath = resourceDirectory.toFile().getAbsolutePath();
-    assertThrows(APIException.class, () -> FileReader.readFile(absolutePath));
+    assertThrows(ApiException.class, () -> FileReader.readFile(absolutePath));
   }
 
   /** Test wrote to check IF APIException is thrown when the file is not UTF-8 encoded */
@@ -45,6 +45,6 @@ class FileReaderTest {
   void readFile_isNotValidUTF8File() {
     Path resourceDirectory = Paths.get("src", "test", "resources", "testFileANSI.txt");
     String absolutePath = resourceDirectory.toFile().getAbsolutePath();
-    assertThrows(APIException.class, () -> FileReader.readFile(absolutePath));
+    assertThrows(ApiException.class, () -> FileReader.readFile(absolutePath));
   }
 }

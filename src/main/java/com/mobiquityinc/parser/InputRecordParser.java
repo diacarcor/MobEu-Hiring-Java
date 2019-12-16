@@ -1,6 +1,6 @@
 package com.mobiquityinc.parser;
 
-import com.mobiquityinc.exception.APIException;
+import com.mobiquityinc.exception.ApiException;
 import com.mobiquityinc.model.InputRecord;
 import com.mobiquityinc.model.Thing;
 import java.math.BigDecimal;
@@ -47,14 +47,14 @@ public class InputRecordParser {
           float packageWeight = Float.parseFloat(recordArray[0]);
           // Package weight validation
           if (packageWeight > 100) {
-            throw new APIException("Package weight should be less or equal than 100");
+            throw new ApiException("Package weight should be less or equal than 100");
           }
           inputRecord.setWeight(packageWeight);
           List<Thing> thingList = new ArrayList<>();
           Pattern pattern = Pattern.compile(THING_REGEXP);
           // Items per line validation
           if (pattern.matcher(recordArray[1]).results().count() > 15) {
-            throw new APIException("Items per lines should be less or equal than 15");
+            throw new ApiException("Items per lines should be less or equal than 15");
           }
           Matcher matcher = pattern.matcher(recordArray[1]);
           while (matcher.find()) {
@@ -63,14 +63,14 @@ public class InputRecordParser {
             double thingWeight = Double.parseDouble(matcher.group("weight"));
             // Thing max weight validation
             if (thingWeight > 100) {
-              throw new APIException("Thing weight should be less or equal than 100");
+              throw new ApiException("Thing weight should be less or equal than 100");
             }
             thing.setWeight(thingWeight);
             thing.setCurrency(matcher.group("currency"));
             BigDecimal thingCost = new BigDecimal(matcher.group("cost"));
             // Thing max cost validation
             if (thingCost.compareTo(new BigDecimal(100)) > 0) {
-              throw new APIException("Thing cost should be less or equal than 100");
+              throw new ApiException("Thing cost should be less or equal than 100");
             }
             thing.setCost(thingCost);
             thingList.add(thing);
@@ -90,7 +90,7 @@ public class InputRecordParser {
     Pattern pattern = Pattern.compile(INPUT_RECORD_REGEXP);
     Matcher matcher = pattern.matcher(line);
     if (!matcher.find()) {
-      throw new APIException("Line format incorrect");
+      throw new ApiException("Line format incorrect");
     }
   }
 }

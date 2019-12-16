@@ -1,6 +1,6 @@
 package com.mobiquityinc.reader;
 
-import com.mobiquityinc.exception.APIException;
+import com.mobiquityinc.exception.ApiException;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
@@ -31,9 +31,9 @@ public class FileReader {
     try (Stream<String> stream = Files.lines(Paths.get(path), StandardCharsets.UTF_8)) {
       return stream.collect(Collectors.toList());
     } catch (UncheckedIOException ioe) {
-      throw new APIException(ioe.getCause().getMessage());
+      throw new ApiException(ioe.getCause().getMessage(), ioe.getCause());
     } catch (IOException ioe) {
-      throw new APIException(ioe.getMessage());
+      throw new ApiException(ioe.getMessage(), ioe);
     }
   }
 }
