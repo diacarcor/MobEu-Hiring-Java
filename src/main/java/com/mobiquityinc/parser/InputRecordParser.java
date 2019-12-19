@@ -1,6 +1,5 @@
 package com.mobiquityinc.parser;
 
-import com.mobiquityinc.exception.ApiException;
 import com.mobiquityinc.model.InputRecord;
 import com.mobiquityinc.model.Thing;
 import java.math.BigDecimal;
@@ -17,13 +16,7 @@ import java.util.regex.Pattern;
  */
 public class InputRecordParser {
 
-  private InputRecordParser() {
-  }
-
-  // regexp to validate line format
-  // This regexp matches a string like e.g. "75 : (1,85.31,€29) (2,14.55,€74)"
-  private static final String INPUT_RECORD_REGEXP =
-      "^\\d+\\s*:\\s*\\(\\d+,\\d*\\.*\\d*,.\\d*\\.*\\d*\\).*$";
+  private InputRecordParser() {}
 
   // regexp for thing format with named groups: index, weight, currency and cost
   // This regexp matches a string like e.g. "(6,76.25,€75)"
@@ -41,56 +34,25 @@ public class InputRecordParser {
 
     file.forEach(
         record -> {
-          validateLineFormat(record);
+          InputRecordValidator.validateLineFormat(record);
           String[] recordArray = record.split(":");
           InputRecord inputRecord = new InputRecord();
-          float packageWeight = Float.parseFloat(recordArray[0]);
-          // Package weight validation
-          if (packageWeight > 100) {
-            throw new ApiException("Package weight should be less or equal than 100");
-          }
-          inputRecord.setWeight(packageWeight);
+          inputRecord.setWeight(Float.parseFloat(recordArray[0]));
           List<Thing> thingList = new ArrayList<>();
           Pattern pattern = Pattern.compile(THING_REGEXP);
-          // Items per line validation
-          if (pattern.matcher(recordArray[1]).results().count() > 15) {
-            throw new ApiException("Items per lines should be less or equal than 15");
-          }
           Matcher matcher = pattern.matcher(recordArray[1]);
           while (matcher.find()) {
-            Thing thing = new Thing();
-            thing.setIndex(Integer.parseInt(matcher.group("index")));
-            double thingWeight = Double.parseDouble(matcher.group("weight"));
-            // Thing max weight validation
-            if (thingWeight > 100) {
-              throw new ApiException("Thing weight should be less or equal than 100");
-            }
-            thing.setWeight(thingWeight);
-            thing.setCurrency(matcher.group("currency"));
-            BigDecimal thingCost = new BigDecimal(matcher.group("cost"));
-            // Thing max cost validation
-            if (thingCost.compareTo(new BigDecimal(100)) > 0) {
-              throw new ApiException("Thing cost should be less or equal than 100");
-            }
-            thing.setCost(thingCost);
-            thingList.add(thing);
+            thingList.add(
+                new Thing(
+                    Integer.parseInt(matcher.group("index")),
+                    Double.parseDouble(matcher.group("weight")),
+                    matcher.group("currency"),
+                    new BigDecimal(matcher.group("cost"))));
           }
           inputRecord.setThingsList(thingList);
+          InputRecordValidator.validateInputRecord(inputRecord);
           inputRecordList.add(inputRecord);
         });
     return inputRecordList;
-  }
-
-  /**
-   * Validates if a {@link String} line has a valid format. If not an APIException is thrown.
-   *
-   * @param line {@link String} representing the lie.
-   */
-  private static void validateLineFormat(String line) {
-    Pattern pattern = Pattern.compile(INPUT_RECORD_REGEXP);
-    Matcher matcher = pattern.matcher(line);
-    if (!matcher.find()) {
-      throw new ApiException("Line format incorrect");
-    }
   }
 }
